@@ -4,9 +4,12 @@
 <meta charset="utf-8">
 <title>Duolingo Incubator Languages</title>
 
+<link href='http://fonts.googleapis.com/css?family=Fira+Sans:400,700' rel='stylesheet' type='text/css'>
+
 <style type="text/css">
 
 body {
+	font-family: 'Fira Sans', sans-serif;
 	padding-top: 20px;
 	text-align: center;
 }
@@ -25,56 +28,62 @@ var sources = {};
 var languages_by_code = {};
 
 var languages = [["ar", "Arabic", "flag-ar.png"],
+								 ["zh-CN", "Chinese", "flag-zh-CN.png"],
 								 ["cs", "Czech", "flag-cs.png"],
-								 ["de", "German", "flag-de.png"],
-								 ["ga", "Irish", "flag-ga.png"],
-								 ["el", "Greek", "flag-el.png"],
-								 ["ko", "Korean", "flag-ko.png"],
+								 ["da", "Danish", "flag-da.png"],
 								 ["nl-NL", "Dutch", "flag-nl-NL.png"],
+								 ["en", "English", "flag-en.png"],
+								 ["fr", "French", "flag-fr.png"],
+								 ["de", "German", "flag-de.png"],
+								 ["el", "Greek", "flag-el.png"],
+								 ["hi", "Hindi", "flag-hi.png"],
+								 ["hu", "Hung…", "flag-hu.png"],
+								 ["id", "Indo…", "flag-id.png"],
+								 ["ga", "Irish", "flag-ga.png"],
+								 ["it", "Italian", "flag-it.png"],
+								 ["ja", "Japanese", "flag-ja.png"],
+								 ["ko", "Korean", "flag-ko.png"],
 								 ["pl", "Polish", "flag-pl.png"],
 								 ["pt", "Portugese", "flag-pt.png"],
 								 ["ro", "Romanian", "flag-ro.png"],
 								 ["ru", "Russian", "flag-ru.png"],
-								 ["tr", "Turkish", "flag-tr.png"],
-								 ["zh-CN", "Chinese", "flag-zh-CN.png"],
-								 ["en", "English", "flag-en.png"],
 								 ["es", "Spanish", "flag-es.png"],
-								 ["fr", "French", "flag-fr.png"],
-								 ["hi", "Hindi", "flag-hi.png"],
-								 ["hu", "Hungarian", "flag-hu.png"],
-								 ["id", "Indonesian", "flag-id.png"],
-								 ["it", "Italian", "flag-it.png"],
-								 ["vi", "Vietnamese", "flag-vi.png"],
-								 ["ja", "Japanese", "flag-ja.png"],];
+								 ["sv", "Swedish", "flag-sv.png"],
+								 ["th", "Thai", "flag-th.png"],
+								 ["tr", "Turkish", "flag-tr.png"],
+								 ["uk", "Ukrain…", "flag-uk.png"],
+								 ["vi", "Vietna…", "flag-vi.png"]];
 var phase_1 = [["hu", "en"],
-							 ["en", "ar"],
-							 ["nl-NL", "en"],
-							 ["ga", "en"],
-							 ["ru", "en"],
-							 ["en", "zh-CN"],
-							 ["de", "es"],
+							 ["sv", "en"],
+							 ["en", "th"],
 							 ["ro", "en"],
-							 ["en", "ko"],
+							 ["en", "uk"],
 							 ["pl", "en"],
-							 ["en", "vi"],
-							 ["es", "fr"],
-							 ["en", "hi"],
-							 ["en", "el"],
+							 ["da", "en"],
 							 ["tr", "en"],
-							 ["en", "id"],
-							 ["fr", "de"],
-							 ["en", "cs"]];
-var phase_2 = [["de", "ru"],
-							 ["fr", "es"],
+							 ["ga", "en"],
+							 ["en", "cs"],
+							 ["it", "es"],
+							 ["ru", "en"],
+							 ["nl-NL", "en"]];
+var phase_2 = [["en", "hi"],
+							 ["en", "el"],
+							 ["es", "fr"],
+							 ["es", "pt"],
+							 ["pt", "es"],
+							 ["en", "ro"],
 							 ["en", "ja"],
 							 ["en", "pl"],
+							 ["en", "zh-CN"],
+							 ["de", "ru"],
 							 ["en", "hu"],
-							 ["en", "tr"],
-							 ["pt", "es"],
-							 ["en", "nl-NL"],
-							 ["es", "pt"],
-							 ["en", "ro"],
-							 ["en", "ru"]];
+							 ["de", "es"],
+							 ["en", "ko"],
+							 ["en", "id"],
+							 ["fr", "de"],
+							 ["en", "ru"],
+							 ["en", "ar"],
+							 ["en", "vi"]];
 var phase_3 = [["de", "en"],
 							 ["es", "en"],
 							 ["en", "de"],
@@ -84,6 +93,9 @@ var phase_3 = [["de", "en"],
 							 ["it", "en"],
 							 ["en", "it"],
 							 ["pt", "en"],
+							 ["fr", "es"],
+							 ["en", "nl-NL"],
+							 ["en", "tr"],
 							 ["en", "fr"]];
 
 function drawBox(){
@@ -103,13 +115,13 @@ function drawBox(){
 		// Head
 		var baseline = 35;
 		ctx.fillStyle = "rgb(80,80,80)";
-		ctx.font = "bold 16px sans-serif";
-		ctx.fillText("Duolingo Incubator. Languages as of March 17, 2014.", 25, baseline);
+		ctx.font = "bold 16px 'Fira Sans', sans-serif";
+		ctx.fillText("Duolingo Incubator. Languages as of June 12, 2014.", 25, baseline);
 		
 		// To and From Labels
 		baseline = canvas_height - (padding - 14);
 		ctx.fillStyle = "rgb(80,80,80)";
-		ctx.font = "bold 12px sans-serif";
+		ctx.font = "bold 12px 'Fira Sans', sans-serif";
 		ctx.fillText("From:", 25, (padding - 8));
 		ctx.fillText("To:", 25, baseline);
 		
@@ -142,15 +154,15 @@ function drawBox(){
 		ctx.stroke();
 		
 		// Color for language names
-		ctx.fillStyle = "rgb(120,120,120)";
+		ctx.fillStyle = "rgb(100,100,100)";
 		ctx.lineWidth = 1;
 				
 		for ( var i = 0, l = languages.length; i < l; i++ ) {
       sources[languages[i][0]] = "flags/" + languages[i][2];
       languages_by_code[languages[i][0]] = i;
 			languages[i][3] = padding + ((col_width + gutter) * i) + (col_width/2);
-			languages[i].push(padding + (68 * col_width / 88));
-			ctx.font = "normal 9px sans-serif";
+			languages[i].push(padding + col_width);
+			ctx.font = "400 9px 'Fira Sans', sans-serif";
 			ctx.textAlign = "center";
 			ctx.fillText(languages[i][1], languages[i][3], (padding - 8));
 			ctx.fillText(languages[i][1], languages[i][3], canvas_height - (padding - 14));
@@ -158,8 +170,8 @@ function drawBox(){
 		
     loadImages(sources, function(images) {
 			for ( var i = 0, l = languages.length; i < l; i++ ) {
-      	ctx.drawImage(images[languages[i][0]], (padding + ((col_width + gutter) * i)), padding, col_width, (68 * col_width / 88));
-      	ctx.drawImage(images[languages[i][0]], (padding + ((col_width + gutter) * i)), (canvas_height - padding - (68 * col_width / 88)), col_width, (68 * col_width / 88));
+      	ctx.drawImage(images[languages[i][0]], (padding + ((col_width + gutter) * i)), padding, col_width, col_width);
+      	ctx.drawImage(images[languages[i][0]], (padding + ((col_width + gutter) * i)), (canvas_height - padding - col_width), col_width, col_width);
       }
 		});
 		
